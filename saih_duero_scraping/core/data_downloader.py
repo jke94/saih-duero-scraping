@@ -9,7 +9,7 @@ class DataDownloader():
     def __init__(self) -> None:
         self.urls = []
                     
-    def add_url(self, gauging_code, hydrologic_year):
+    def add_url(self, gauging_code:int, hydrologic_year:str):
         
         hydrologic_url = HydrologicUrl(
             gauging_code, 
@@ -21,7 +21,7 @@ class DataDownloader():
             
             self.urls.append(url)
     
-    def add_urls(self, dict_hydrologic_years):
+    def add_urls(self, dict_hydrologic_years:dict)-> None:
         
         for item in dict_hydrologic_years:
             
@@ -35,13 +35,17 @@ class DataDownloader():
                 
                 self.urls.append(url)
     
-    def _is_valid_url(self, url):
+    def _is_valid_url(self, url:str)-> bool:
         
-        # TODO: Validate URL.
-        return True
+        # TODO: Improve URL validation.
+        if type(url) is str:
+            
+            return True
+        else:
+            return False
     
 
-    def download_data(self):
+    def download_data(self)-> None:
         
         if not os.path.exists('./data/csv'):
             os.makedirs('./data/csv')
