@@ -3,23 +3,22 @@ import csv
 import os
 
 from core.hydrologic_url import HydrologicUrl as HydrologicUrl
+from core.gauging_collection import GaugingCollection
 
 class DataDownloader():
     
     def __init__(self) -> None:
-        self.urls = []
+        self.hydrologic_urls = []
                     
-    def add_url(self, gauging_code:int, hydrologic_year:str):
+    def add_url(self, gauging_code:int, hydrologic_year:str)-> None:
         
         hydrologic_url = HydrologicUrl(
             gauging_code, 
-            hydrologic_year)
+            hydrologic_year)       
         
-        url = hydrologic_url.get_url()
-        
-        if self._is_valid_url(url):
+        if self._is_valid_url(hydrologic_url.get_url()):
             
-            self.urls.append(url)
+            self.hydrologic_urls.append(hydrologic_url)
     
     def add_urls(self, dict_hydrologic_years:dict)-> None:
         
@@ -28,12 +27,10 @@ class DataDownloader():
             hydrologic_url = HydrologicUrl(
                 item["gauging_code"], 
                 item["hydrologic_year"])
-        
-            url = hydrologic_url.get_url()
-            
-            if self._is_valid_url(url):
+                    
+            if self._is_valid_url(hydrologic_url.get_url()):
                 
-                self.urls.append(url)
+                self.hydrologic_urls.append(hydrologic_url)
     
     def _is_valid_url(self, url:str)-> bool:
         
@@ -55,21 +52,27 @@ class DataDownloader():
         
         count = 0
         
-        for url in self.urls:
+        for url in self.hydrologic_urls:
             
             count += count + 1
+            name = self.__find_gauging_by_gauging_code(url.place_code).replace(' ','')
             
-            response = requests.get(url)
+            response = requests.get(url.get_url())
 
             if response.status_code == 200:
+                
                 reader = csv.reader(response.text.split('\n'), delimiter=';')
                 
-                with open(f'./data/txt/{count}.txt', mode='w') as file:
+                txt_file = f'./data/txt/{name}_hidroyear{url.hydrologic_year}-{url.hydrologic_year+1}.txt'
+                
+                with open(txt_file, mode='w') as file:
                     file.write(response.text)
                     
                 file.close()
                 
-            with open(f'./data/csv/{count}.csv', mode='w') as file:
+            csv_file = f'./data/csv/{name}_hidro_year{url.hydrologic_year}-{url.hydrologic_year+1}.csv'
+            
+            with open(csv_file, mode='w') as file:
                 
                 writer = csv.writer(file)
                 
@@ -80,3 +83,13 @@ class DataDownloader():
                         writer.writerow(row)
 
             file.close()
+
+    def __find_gauging_by_gauging_code(self, gauging_code:int)-> str:
+                    
+        for key, value in GaugingCollection.items():
+            
+            if value.gauging_code == gauging_code:
+                
+                return value.name
+        
+        return str('')

@@ -7,7 +7,7 @@ GaugingCollection = {
         gauging_code=2089
     ),
     GaugingEnum.MoralesDelRey : Gauging(
-        name='Morales del Rey',
+        name='Morales Del Rey',
         gauging_code=2082
     ),
     GaugingEnum.Leon : Gauging(
