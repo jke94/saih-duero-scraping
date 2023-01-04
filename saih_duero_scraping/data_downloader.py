@@ -2,12 +2,13 @@ import requests
 import csv
 import os
 
-from core.hydrologic_url import HydrologicUrl as HydrologicUrl
-from core.gauging_collection import GaugingCollection
+from saih_duero_scraping.hydrologic_url import HydrologicUrl as HydrologicUrl
+from saih_duero_scraping.gauging_collection import GaugingCollection
 
 class DataDownloader():
     
     def __init__(self) -> None:
+        
         self.hydrologic_urls = []
                     
     def add_url(self, gauging_code:int, hydrologic_year:str)-> None:

@@ -1,5 +1,5 @@
-from core.gauging_enum import GaugingEnum
-from core.gauging import Gauging
+from saih_duero_scraping.gauging_enum import GaugingEnum
+from saih_duero_scraping.gauging import Gauging
 
 GaugingCollection = {
     GaugingEnum.MorlaDeLaValderia : Gauging(
