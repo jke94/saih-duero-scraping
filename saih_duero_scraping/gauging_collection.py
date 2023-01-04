@@ -1,20 +1,20 @@
-from saih_duero_scraping.gauging_enum import GaugingEnum
+from saih_duero_scraping.gauging_enum import GaugingStation
 from saih_duero_scraping.gauging import Gauging
 
 GaugingCollection = {
-    GaugingEnum.MorlaDeLaValderia : Gauging(
+    GaugingStation.MorlaDeLaValderia : Gauging(
         name='Morla De La Valdería',
         gauging_code=2089
     ),
-    GaugingEnum.MoralesDelRey : Gauging(
+    GaugingStation.MoralesDelRey : Gauging(
         name='Morales Del Rey',
         gauging_code=2082
     ),
-    GaugingEnum.Leon : Gauging(
+    GaugingStation.Leon : Gauging(
         name='León',
         gauging_code=2115
     ),
-    GaugingEnum.LasOmanias : Gauging(
+    GaugingStation.LasOmanas : Gauging(
         name='Las Omañanas',
         gauging_code=2076
     )
