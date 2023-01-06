@@ -10,8 +10,11 @@ class DataDownloader():
     def __init__(self) -> None:
         
         self.hydrologic_urls = []
+        
+        self.__csv_data_folder = './data/csv'
+        self.__txt_data_folder = './data/txt'
                     
-    def add_url(self, gauging_code:int, hydrologic_year:str)-> None:
+    def add_url(self, gauging_code:int, hydrologic_year:str) -> None:
         
         hydrologic_url = HydrologicUrl(
             gauging_code, 
@@ -39,17 +42,14 @@ class DataDownloader():
         if type(url) is str:
             
             return True
+        
         else:
+            
             return False
     
-
-    def download_data(self)-> None:
+    def download_data(self)-> int:
         
-        if not os.path.exists('./data/csv'):
-            os.makedirs('./data/csv')
-        
-        if not os.path.exists('./data/txt'):
-            os.makedirs('./data/txt')
+        self.__create_folders()
         
         count = 0
         
@@ -60,32 +60,39 @@ class DataDownloader():
             
             response = requests.get(url.get_url())
 
-            if response.status_code == 200:
+            # Http request 200 - OK and auging code exits.
+            
+            if response.status_code == 200 and name != '':
                 
                 reader = csv.reader(response.text.split('\n'), delimiter=';')
                 
-                txt_file = f'./data/txt/{name}_hidroyear{url.hydrologic_year}-{url.hydrologic_year+1}.txt'
+                txt_file_name = f'./data/txt/{name}_hidroyear_{url.hydrologic_year}-{url.hydrologic_year+1}.txt'
                 
-                with open(txt_file, mode='w') as file:
-                    file.write(response.text)
+                with open(txt_file_name, mode='w') as txt_file:
                     
-                file.close()
-                
-            csv_file = f'./data/csv/{name}_hidro_year{url.hydrologic_year}-{url.hydrologic_year+1}.csv'
-            
-            with open(csv_file, mode='w') as file:
-                
-                writer = csv.writer(file)
-                
-                for row in reader:
+                    txt_file.write(response.text)
                     
-                    if len(row) == 3 and 'AAAA-MM-DD HH:mm' not in row[0]:
+                txt_file.close()
+                
+                csv_file_name = f'./data/csv/{name}_hidroyear_{url.hydrologic_year}-{url.hydrologic_year+1}.csv'
+                
+                with open(csv_file_name, mode='w') as csv_file:
+                    
+                    writer = csv.writer(csv_file)
+                    
+                    writer.writerow(['AAAA-MM-DD HH:mm','H(m)','Q(m3/s)'])
+                    
+                    for row in reader:
                         
-                        writer.writerow(row)
+                        if len(row) == 3 and 'AAAA-MM-DD HH:mm' not in row[0]:
+                            
+                            writer.writerow(row)
 
-            file.close()
+                csv_file.close()
+            
+        return 0
 
-    def __find_gauging_by_gauging_code(self, gauging_code:int)-> str:
+    def __find_gauging_by_gauging_code(self, gauging_code:int) -> str:
                     
         for key, value in GaugingCollection.items():
             
@@ -93,4 +100,12 @@ class DataDownloader():
                 
                 return value.name
         
-        return str('')
+        return ''
+    
+    def __create_folders(self) -> None:
+        
+        if not os.path.exists(self.__csv_data_folder):
+            os.makedirs(self.__csv_data_folder)
+        
+        if not os.path.exists(self.__txt_data_folder):
+            os.makedirs(self.__txt_data_folder)
