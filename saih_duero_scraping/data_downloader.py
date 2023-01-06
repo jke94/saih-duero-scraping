@@ -1,6 +1,7 @@
 import requests
 import csv
 import os
+import time
 
 from saih_duero_scraping.hydrologic_url import HydrologicUrl as HydrologicUrl
 from saih_duero_scraping.gauging_collection import GaugingCollection
@@ -13,6 +14,8 @@ class DataDownloader():
         
         self.__csv_data_folder = './data/csv'
         self.__txt_data_folder = './data/txt'
+        self.__data_folder = './data'
+        self.__summary_info = []
                     
     def add_url(self, gauging_code:int, hydrologic_year:str) -> None:
         
@@ -49,18 +52,18 @@ class DataDownloader():
     
     def download_data(self)-> int:
         
-        self.__create_folders()
+        self.__create_data_downlods_folders()
         
         count = 0
         
         for url in self.hydrologic_urls:
             
-            count += count + 1
+            count += 1
             name = self.__find_gauging_by_gauging_code(url.place_code).replace(' ','')
             
             response = requests.get(url.get_url())
 
-            # Http request 200 - OK and auging code exits.
+            # Http request 200 - OK and gauging code exits.
             
             if response.status_code == 200 and name != '':
                 
@@ -89,6 +92,19 @@ class DataDownloader():
                             writer.writerow(row)
 
                 csv_file.close()
+                
+                # Add summary info.
+                
+                self.__summary_info(f'ITEM: {count}/{len(self.hydrologic_urls)}')
+                self.__summary_info.append(
+                    f'{time.strftime("%d-%m-%Y %H:%M:%S")}\t|\tFile created {txt_file_name}\n')
+                
+                self.__summary_info.append(
+                    f'{time.strftime("%d-%m-%Y %H:%M:%S")}\t|\tFile created {csv_file_name}\n')
+                
+                self.__summary_info.append('\n\n')
+                
+        self.__create_summary_downloads_info_file(self)
             
         return 0
 
@@ -102,10 +118,19 @@ class DataDownloader():
         
         return ''
     
-    def __create_folders(self) -> None:
+    def __create_data_downlods_folders(self) -> None:
         
         if not os.path.exists(self.__csv_data_folder):
             os.makedirs(self.__csv_data_folder)
         
         if not os.path.exists(self.__txt_data_folder):
             os.makedirs(self.__txt_data_folder)
+            
+    def __create_summary_downloads_info_file(self, summary_info:list) -> None:
+        
+        if not os.path.exists(self.__data_folder):
+            os.makedirs(self.__data_folder)
+        
+        with open('./data/summary.txt', mode='w') as file:
+            
+            file.writelines(self.__summary_info)

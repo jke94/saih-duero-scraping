@@ -19,15 +19,15 @@ datadownloader.add_urls(
             hydrologic_year = HydrologicYears.year_2018
         ),
         dict(
-            gauging_code = GaugingCollection[GaugingStation.MorlaDeLaValderia].gauging_code, 
+            gauging_code = GaugingCollection[GaugingStation.Zamora].gauging_code, 
             hydrologic_year = HydrologicYears.year_2019
         ),
         dict(
-            gauging_code = GaugingCollection[GaugingStation.MorlaDeLaValderia].gauging_code, 
+            gauging_code = GaugingCollection[GaugingStation.Valladolid_Esgueva].gauging_code, 
             hydrologic_year = HydrologicYears.year_2020
         ),
         dict(
-            gauging_code = GaugingCollection[GaugingStation.MorlaDeLaValderia].gauging_code, 
+            gauging_code = GaugingCollection[GaugingStation.MoralesDelRey].gauging_code, 
             hydrologic_year = HydrologicYears.year_2021
         )
     ]
