@@ -1,9 +1,9 @@
-name: Multibranch pipeline
+name: Main branch pipeline
 
 on:
   push:
-    branches:    
-      - '!main'   # excludes master
+    branches: 
+     - 'main'
 
 jobs:
   build:
