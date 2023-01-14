@@ -5,6 +5,7 @@ import time
 
 from saih_duero_scraping.hydrologic_url import HydrologicUrl as HydrologicUrl
 from saih_duero_scraping.gauging_collection import GaugingCollection
+from saih_duero_scraping.summary_info_file import SummaryInfoFile
 
 class DataDownloader():
     
@@ -15,7 +16,8 @@ class DataDownloader():
         self.__csv_data_folder = './data/csv'
         self.__txt_data_folder = './data/txt'
         self.__data_folder = './data'
-        self.__summary_info = []
+        self.__summary_info = SummaryInfoFile(
+            summary_info_file_name='./data/summary.txt')
                     
     def add_url(self, gauging_code:int, hydrologic_year:str) -> None:
         
@@ -94,22 +96,15 @@ class DataDownloader():
                 csv_file.close()
                 
                 # Add summary info.
-                self.__append_summary_info(count, csv_file_name, txt_file_name )
+                self.__summary_info.append_summary_info(
+                    n_item=count,
+                    n_total_items=len(self.hydrologic_urls),
+                    csv_file_name=csv_file_name,
+                    txt_file_name=txt_file_name)
                 
         self.__create_summary_downloads_info_file()
             
         return 0
-
-    def __append_summary_info(self, count, txt_file_name, csv_file_name) -> None:
-
-        self.__summary_info.append(f'ITEM [{count}/{len(self.hydrologic_urls)}]\n')
-        self.__summary_info.append(
-            f'{time.strftime("%d-%m-%Y %H:%M:%S")}\t|\tFile created: {txt_file_name}\n')
-        
-        self.__summary_info.append(
-            f'{time.strftime("%d-%m-%Y %H:%M:%S")}\t|\tFile created: {csv_file_name}\n')
-        
-        self.__summary_info.append('\n\n')        
 
     def __find_gauging_by_gauging_code(self, gauging_code:int) -> str:
                     
@@ -133,7 +128,5 @@ class DataDownloader():
         
         if not os.path.exists(self.__data_folder):
             os.makedirs(self.__data_folder)
-        
-        with open('./data/summary.txt', mode='w') as file:
-            
-            file.writelines(self.__summary_info)
+
+        self.__summary_info.create_summary_info_file()
