@@ -1,3 +1,6 @@
+[![Main branch pipeline](https://github.com/jke94/saih-duero-scraping/actions/workflows/main-branch.yml/badge.svg)](https://github.com/jke94/saih-duero-scraping/actions/workflows/main-branch.yml)
+
+[![PyPI version](https://badge.fury.io/py/saih-duero-scraping.svg)](https://badge.fury.io/py/saih-duero-scraping)
 # Saih Duero Scraping  - Python Package
 Source code to build a python package for web scraping operations over Saih Duero web page and save data as CSV file.
 
