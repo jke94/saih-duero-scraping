@@ -94,19 +94,22 @@ class DataDownloader():
                 csv_file.close()
                 
                 # Add summary info.
+                self.__append_summary_info(count, csv_file_name, txt_file_name )
                 
-                self.__summary_info(f'ITEM: {count}/{len(self.hydrologic_urls)}')
-                self.__summary_info.append(
-                    f'{time.strftime("%d-%m-%Y %H:%M:%S")}\t|\tFile created {txt_file_name}\n')
-                
-                self.__summary_info.append(
-                    f'{time.strftime("%d-%m-%Y %H:%M:%S")}\t|\tFile created {csv_file_name}\n')
-                
-                self.__summary_info.append('\n\n')
-                
-        self.__create_summary_downloads_info_file(self)
+        self.__create_summary_downloads_info_file()
             
         return 0
+
+    def __append_summary_info(self, count, txt_file_name, csv_file_name) -> None:
+
+        self.__summary_info.append(f'ITEM [{count}/{len(self.hydrologic_urls)}]\n')
+        self.__summary_info.append(
+            f'{time.strftime("%d-%m-%Y %H:%M:%S")}\t|\tFile created: {txt_file_name}\n')
+        
+        self.__summary_info.append(
+            f'{time.strftime("%d-%m-%Y %H:%M:%S")}\t|\tFile created: {csv_file_name}\n')
+        
+        self.__summary_info.append('\n\n')        
 
     def __find_gauging_by_gauging_code(self, gauging_code:int) -> str:
                     
@@ -126,7 +129,7 @@ class DataDownloader():
         if not os.path.exists(self.__txt_data_folder):
             os.makedirs(self.__txt_data_folder)
             
-    def __create_summary_downloads_info_file(self, summary_info:list) -> None:
+    def __create_summary_downloads_info_file(self) -> None:
         
         if not os.path.exists(self.__data_folder):
             os.makedirs(self.__data_folder)
