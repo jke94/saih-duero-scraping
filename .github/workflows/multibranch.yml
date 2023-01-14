@@ -1,6 +1,9 @@
 name: Multibranch Pipeline
 
-on: [push]
+on:
+  push:
+    branches:    
+      - '!main'   # excludes master
 
 jobs:
   build:
