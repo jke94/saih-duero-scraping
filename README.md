@@ -17,7 +17,7 @@ pip install saih-duero-scraping
 
 ### B.2 - Example of code.
 
-- Source code: [example.py]()
+- Source code: [example.py](https://github.com/jke94/saih-duero-scraping/blob/main/example.py)
 
 ```
 from saih_duero_scraping.gauging_collection import GaugingCollection
@@ -61,6 +61,51 @@ datadownloader.download_data()
 
 - Ouput:
 
+A 'Data' folder it´s created with the following info:
+
 ```
-#TODO
+PS H:\Repositories\saih-duero-scraping\data> ls
+
+
+    Directorio: H:\Repositories\saih-duero-scraping\data
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        14/01/2023     15:54                csv
+d-----        14/01/2023     15:54                txt
+-a----        14/01/2023     15:54            926 summary.txt
+
+
+PS H:\Repositories\saih-duero-scraping\data> ls .\csv\
+
+
+    Directorio: H:\Repositories\saih-duero-scraping\data\csv
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        14/01/2023     15:54         254368 Leon_hidroyear_2018-2019.csv
+-a----        14/01/2023     15:54         258765 MoralesdelRey_hidroyear_2021-2022.csv
+-a----        14/01/2023     15:54         257251 MorladeLaValderia_hidroyear_2018-2019.csv
+-a----        14/01/2023     15:54         257630 Valladolid-Esgueva_hidroyear_2020-2021.csv
+-a----        14/01/2023     15:54         250941 Zamora_hidroyear_2019-2020.csv
+
+
+PS H:\Repositories\saih-duero-scraping\data> ls .\txt\
+
+
+    Directorio: H:\Repositories\saih-duero-scraping\data\txt
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        14/01/2023     15:54         246673 Leon_hidroyear_2018-2019.txt
+-a----        14/01/2023     15:54         251051 MoralesdelRey_hidroyear_2021-2022.txt
+-a----        14/01/2023     15:54         249573 MorladeLaValderia_hidroyear_2018-2019.txt
+-a----        14/01/2023     15:54         250260 Valladolid-Esgueva_hidroyear_2020-2021.txt
+-a----        14/01/2023     15:54         243172 Zamora_hidroyear_2019-2020.txt
+
+
+PS H:\Repositories\saih-duero-scraping\data>
 ```
