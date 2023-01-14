@@ -17,7 +17,7 @@ pip install saih-duero-scraping
 
 ### B.2 - Example of code.
 
-- Source code: [example.py]()
+- Source code: [example.py](https://github.com/jke94/saih-duero-scraping/blob/main/example.py)
 
 ```
 from saih_duero_scraping.gauging_collection import GaugingCollection
