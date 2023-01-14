@@ -1,7 +1,6 @@
 import requests
 import csv
 import os
-import time
 
 from saih_duero_scraping.hydrologic_url import HydrologicUrl as HydrologicUrl
 from saih_duero_scraping.gauging_collection import GaugingCollection
