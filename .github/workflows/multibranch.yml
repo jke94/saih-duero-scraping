@@ -1,4 +1,4 @@
-name: Multibranch Pipeline
+name: Multibranch pipeline
 
 on:
   push:
